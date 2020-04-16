@@ -48,7 +48,7 @@ export default class ProxyServer extends EventEmitter {
             client.end("Server is not started yet");
             if(!this.startTime)
             {
-                this.startTime = Date.now()
+                this.startTime = Date.now();
                 this.emit("start");
             }
         });
