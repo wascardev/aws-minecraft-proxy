@@ -46,6 +46,10 @@ export default class ProxyServer extends EventEmitter {
         // stop players from connecting to the server
         this.server.on("login", client => {
             client.end("Server is not started yet");
+            if(!this.startTime)
+            {
+                this.emit("start");
+            }
         });
 
         // start checking if the remote is up
