@@ -99,15 +99,18 @@ export default class ProxyServer extends EventEmitter {
     beforePing(data, client) {
         if (!this.alive) {
             if (!this.startTime) {
-                this.startTime = Date.now();
-                this.emit("start");
+                data.description.text = "Server is sleeping (Connect to Wake Up)";
+                data.version.name = "Sleeping";
             }
-            const secondsSinceStart = Math.round(
-                (Date.now() - this.startTime) / 1000
-            );
-            data.description.text = `Please wait while the server starts (${secondsSinceStart}s)`;
+            else {
+                const secondsSinceStart = Math.round(
+                    (Date.now() - this.startTime) / 1000
+                );
+                data.description.text = `Please wait while the server starts (${secondsSinceStart}s)`;
+                data.version.name = "Booting up";
+            }
+
             data.players.max = 0;
-            data.version.name = "Booting up";
             data.version.protocol = 1; // set a known-bad protocol so the user gets an error showing the version name
         } else if (this.lastTargetData) {
             data = this.lastTargetData;
